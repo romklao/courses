@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Document</title>
+    </head>
+    <body>
+        <form action="/add" method="post">
+        {% csrf_token %}
+            <h2>Add a new course</h2>
+            <p>Name: <input type="text" name="name"></p>
+            <p>Description: 
+                <p><textarea rows="5" cols="30" name="description"></textarea></p>
+            </p>
+            <p><input type="submit" value="Add"></p>
+        </form>
+        <p>Courses</p>
+        <table>
+            <tr>
+                <th>Courses Name</th>
+                <th>Description</th>
+                <th>Date Added</th>
+                <th>Actions</th>
+            </tr>
+
+            {% for course in courses %}
+                <tr>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.description }}</td>
+                    <td>{{ course.created_at }}</td>
+                    <td>
+                        <form action="/delete" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{ course.id }}">
+                            <input type="submit" value="remove">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            
+        </table>
+    </body>
+</html>
